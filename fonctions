@@ -1,0 +1,81 @@
+import java.util.Arrays;
+import java.util.Random;
+
+public class Fonctions {
+
+    int T[]=null;
+    int T_trie[]=null;
+    int number;
+    Random dice=new Random();
+
+    public int[] tri_selection (int T[]){
+        int index_min,tmp;
+        if (T!=null){
+            T_trie=Arrays.copyOfRange(T,0,T.length);
+
+            for (int i=0;i<T_trie.length;i++){
+                index_min=i;
+                for (int j=i+1;j<T_trie.length;j++){
+                    if (T_trie[j]<T_trie[index_min]){
+                        index_min=j;
+                    }
+
+                    tmp=T_trie[index_min];
+                    T_trie[index_min]=T_trie[i];
+                    T_trie[i]=tmp;
+                }
+
+            }
+        }
+        return T_trie;
+    }
+
+    public int[] generer_rand(int n){
+        T=new int[n];
+        for (int i=0;i<n;i++){
+            T[i]=dice.nextInt(10000);
+        }
+
+        return T;
+    }
+
+
+    public int[] generer_trie(int n){
+        T=new int[n];
+        for (int i=0;i<T.length;i++){
+            T[i]=i;
+        }
+        return T;
+    }
+
+
+    public int[] generer_inverse(int n){
+        T=new int[n];
+        for (int i=0;i<n;i++){
+            T[i]=n-i;
+        }
+        return T;
+    }
+
+}
+//---------------------------------------------------------------------------
+//main
+
+import java.util.Random;
+public class Main {
+
+    static Fonctions f1=new Fonctions();
+    public static void main(String [] args){
+        //f1.generer_inverse(5);
+        int [] S=f1.generer_rand(3);
+        //int [] X= f1.generer_trie(3)
+        f1.tri_selection(S);
+
+        for (int i=0;i<S.length;i++){
+            System.out.println(S[i]);
+        }
+
+    }
+
+
+}

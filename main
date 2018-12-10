@@ -1,0 +1,22 @@
+public class Main {
+
+    public static void main(String[] args) {
+
+        Tableau S=new Tableau();
+        int test[]=null;
+
+        for (int i=0;i<10;i++){
+            S.generer_rand(i);
+            S.imprimer_tableau();
+            //S.tri_bulle();
+        }
+
+
+
+
+
+
+    }
+
+
+}

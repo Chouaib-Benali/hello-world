@@ -1,52 +1,32 @@
 import java.util.Arrays;
 import java.util.Random;
+public class Tableau {
 
-public class Fonctions {
+        int T[]=null;
+        int T_trie[]=null;
+        int number;
+        Random dice=new Random();
+        //number = dice.nextInt(2);
 
-    int T[]=null;
-    int T_trie[]=null;
-    int number;
-    Random dice=new Random();
 
-    public int[] tri_selection (int T[]){
-        int index_min,tmp;
-        if (T!=null){
-            T_trie=Arrays.copyOfRange(T,0,T.length);
 
-            for (int i=0;i<T_trie.length;i++){
-                index_min=i;
-                for (int j=i+1;j<T_trie.length;j++){
-                    if (T_trie[j]<T_trie[index_min]){
-                        index_min=j;
-                    }
-
-                    tmp=T_trie[index_min];
-                    T_trie[index_min]=T_trie[i];
-                    T_trie[i]=tmp;
-                }
-
+        public int[] generer_rand(int n){
+            T=new int[n];
+            for (int i=0;i<n;i++){
+                T[i]=dice.nextInt(10000);
             }
-        }
-        return T_trie;
-    }
 
-    public int[] generer_rand(int n){
-        T=new int[n];
-        for (int i=0;i<n;i++){
-            T[i]=dice.nextInt(10000);
+            return T;
         }
 
-        return T;
-    }
 
-
-    public int[] generer_trie(int n){
-        T=new int[n];
-        for (int i=0;i<T.length;i++){
-            T[i]=i;
+        public int[] generer_trie(int n){
+            T=new int[n];
+            for (int i=0;i<T.length;i++){
+                T[i]=i;
+            }
+            return T;
         }
-        return T;
-    }
 
 
     public int[] generer_inverse(int n){
@@ -57,25 +37,133 @@ public class Fonctions {
         return T;
     }
 
-}
-//---------------------------------------------------------------------------
-//main
 
-import java.util.Random;
-public class Main {
 
-    static Fonctions f1=new Fonctions();
-    public static void main(String [] args){
-        //f1.generer_inverse(5);
-        int [] S=f1.generer_rand(3);
-        //int [] X= f1.generer_trie(3)
-        f1.tri_selection(S);
 
-        for (int i=0;i<S.length;i++){
-            System.out.println(S[i]);
+    public void imprimer_tableau(){
+            for(int i=0;i<T.length;i++)
+                {
+                    System.out.println("T["+i+"]="+T[i]);
+
+                }
+                for(int i=0;i<T_trie.length;i++)
+                {
+                    System.out.println("T_trie["+i+"]="+T_trie[i]);
+
+                }
+
+            }
+
+
+
+       public int[] tri_selection (int T[]) {
+           int i, j, minIndex, tmp;
+           int n = T_trie.length;
+           if (T != null) {
+               T_trie = Arrays.copyOfRange(T, 0, T.length);
+               for (i = 0; i < n - 1; i++) {
+
+                   minIndex = i;
+
+                   for (j = i + 1; j < n; j++)
+
+                       if (T_trie[j] < T_trie[minIndex])
+
+                           minIndex = j;
+
+                   if (minIndex != i) {
+
+                       tmp = T_trie[i];
+
+                       T_trie[i] = T_trie[minIndex];
+
+                       T_trie[minIndex] = tmp;
+
+                   }
+
+               }
+           }
+       return T_trie;}
+
+
+
+
+    public int[] tri_bulle (int T[]){
+        int tmp;
+        boolean swapped = true;
+        int j = 0;
+        if (T!=null){
+            T_trie=Arrays.copyOfRange(T,0,T.length);
+            while (swapped) {
+                swapped = false;
+                j++;
+
+                for (int i = 0; i < T_trie.length - j; i++) {
+
+                    if (T_trie[i] > T_trie[i + 1]) {
+
+                        tmp = T_trie[i];
+
+                        T_trie[i] = T_trie[i + 1];
+
+                        T_trie[i + 1] = tmp;
+
+                        swapped = true;
+
+                    }
+                }
+            }
         }
+        return T_trie;
+    }
+
+
+    int partition(int T_trie[], int left, int right)
+
+    {
+
+        int i = left, j = right;
+        int tmp;
+        int pivot = T_trie[(left + right) / 2];
+
+        while (i <= j) {
+            while (T_trie[i] < pivot)
+                i++;
+
+            while (T_trie[j] > pivot)
+                j--;
+
+            if (i <= j) {
+                tmp = T_trie[i];
+                T_trie[i] = T_trie[j];
+                T_trie[j] = tmp;
+                i++;
+                j--;
+
+            }
+        };
+        return i;
 
     }
+
+
+
+    void quickSort(int T_trie[], int left, int right) {
+
+        int index = partition(T_trie, left, right);
+
+        if (left < index - 1)
+            quickSort(T_trie, left, index - 1);
+
+        if (index < right)
+            quickSort(T_trie, index, right);
+
+    }
+
+
+//-----------------------------------
+
+    //MergeSort+RechercheSeq+RechercheSeqRecursive+RechercheDicho+RechercheDichoRecursive
 
 
 }

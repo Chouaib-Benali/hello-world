@@ -1,0 +1,61 @@
+import java.awt.Color;
+
+      import javax.swing.JFrame;
+      import javax.swing.SwingUtilities;
+      import javax.swing.WindowConstants;
+
+      import org.jfree.chart.ChartFactory;
+      import org.jfree.chart.ChartPanel;
+      import org.jfree.chart.JFreeChart;
+      import org.jfree.chart.plot.PlotOrientation;
+      import org.jfree.chart.plot.XYPlot;
+      import org.jfree.data.xy.XYDataset;
+      import org.jfree.data.xy.XYSeries;
+      import org.jfree.data.xy.XYSeriesCollection;
+
+public class Main extends JFrame {
+
+    private static final long serialVersionUID = 1L;
+
+    public Main(String title, double [][] data, String[] names) {
+        super(title);
+        // Create dataset
+        XYDataset dataset = createDataset(data,names);//creation objet
+        // Create chart
+        JFreeChart chart = ChartFactory.createXYLineChart(
+                "XY Line Chart",
+                "X-Axis: Taille du Tableau",
+                "Y-Axis: Temps d'execution",
+                dataset,
+                PlotOrientation.VERTICAL,
+                true, true, false);
+
+        // Create Panel
+        ChartPanel panel = new ChartPanel(chart);
+        setContentPane(panel);
+    }
+
+    private XYDataset createDataset(double [][] data, String[] names) {
+        XYSeriesCollection dataset = new XYSeriesCollection();
+
+        XYSeries series;
+        for(int i=0;i<names.length;i++) {
+            series = new XYSeries(names[i]);
+            for(int j=0;j<data.length;j++)
+                series.add(data[j][0], data[j][i+1]);
+            dataset.addSeries(series);
+        }
+
+        return dataset;
+    }
+
+    public static void main(String[] args) {
+        double data[][] = {{1000, 0.01, 0.3, 0.008},{2000, 0.88, 0.32, 0.78},{3000, 0.77, 0.9, 0.78},{4000, 0.04, 0.12, 0.08}};
+        String names[] = {"Algo 1", "Algo 2", "Algo 3"};//Couleur et nom des graphes
+            Main example = new Main("Titre", data, names);//création de l'objet
+        example.setSize(800, 400);//taille fenetre
+        example.setLocationRelativeTo(null);//location fenetre
+        example.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        example.setVisible(true);
+    }
+}

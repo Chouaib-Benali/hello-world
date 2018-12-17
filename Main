@@ -1,0 +1,123 @@
+import java.awt.Color;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+import javax.swing.WindowConstants;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.data.xy.XYDataset;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
+
+public class Main extends JFrame {
+    private static final long serialVersionUID = 1L;
+
+    public Main(String title,int [] data,String [] names){
+        super(title);
+        //create dataset
+        XYDataset dataset=createDataset(data,names);
+        JFreeChart chart = ChartFactory.createXYLineChart(
+                "XY Line Chart",
+                "X-Axis: Taille du Tableau",
+                "Y-Axis: Temps d'execution",
+                dataset,
+                PlotOrientation.VERTICAL,
+                true, true, false);
+        ChartPanel panel=new ChartPanel(chart);
+        setContentPane(panel);
+    }
+
+
+    private XYDataset createDataset(int [] data,String [] names){
+        XYSeriesCollection dataset=new XYSeriesCollection();
+        XYSeries series;
+        for (int i=0;i<names.length;i++){
+            series=new XYSeries(names[i]);
+        }
+
+        for (int j=0;j<data.length;j++){
+            series=new XYSeries(data[j]);
+        }
+        return dataset;}
+
+    public static void main(String[] args) {
+
+        Tableau S=new Tableau();
+        int [] test1=new int[100000];
+
+
+        //int [] test=S.generer_rand(5);
+        /*
+        for (int i=0;i<test.length;i++){
+            System.out.print(test[i]+"\n");
+        }
+        */
+
+        for (int i=0;i<100000;i+=1000){
+            test1=S.generer_rand(i);
+            System.out.println(i);
+            //S.tri_bulle(test);// super lent comme progression o(n²)
+
+            //S.tri_selection(test1);//lent mais pas autant que le bulle
+            //System.out.println(i);
+            //S.partition(test,0,i);
+            //S.quickSort(test,0,i);
+
+
+        }
+        /*
+        for (int i=0;i<100000;i=+1000){
+            int [] test=S.generer_trie(i);
+
+            S.tri_bulle(test);
+
+            S.tri_selection(test);
+
+            //S.partition(test,0,i);
+            //S.quickSort(test,0,i);
+
+
+        }
+        */
+        /*
+        for (int i=0;i<100000;i=+1000){
+            int [] test=S.generer_inverse(i);
+            S.imprimer_tableau();
+            S.tri_bulle(test);
+            S.imprimer_tableau();
+            S.tri_selection(test);
+            S.imprimer_tableau();
+            S.partition(test,0,i);
+            S.quickSort(test,0,i);
+            S.imprimer_tableau();
+
+        }
+        */
+
+
+        //S.generer_rand(2);
+       // for(int i=0;i<test.length;i++){
+         //   System.out.print(test[i]);
+        //}
+
+
+        String names[]={"Algo1"};
+        Main example=new Main("Titre",test1,names);
+        example.setSize(800,400);
+        example.setLocationRelativeTo(null);
+        example.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        example.setVisible(true);
+
+
+
+
+
+
+
+
+    }
+
+
+}
